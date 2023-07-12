@@ -5,11 +5,11 @@ echo "Installing scripts to $HOME/.aws-scripts"
 
 create_install_dir() {
     
-    INSTALL_DIR=$1
+    install_dir=$1
 
     if [ ! -d $1 ]; then
-        echo "Creating $INSTALL_DIR"
-        mkdir "$INSTALL_DIR"
+        echo "Creating $install_dir"
+        mkdir "$install_dir"
     fi
 }
 
@@ -34,16 +34,23 @@ install () {
     case $SHELL in
     *zsh)
         echo "Using zsh"
-        echo "PATH=$PATH:$HOME/.aws-scripts/aws" >> $HOME/.zshrc
+        if ! grep ".aws-scripts/aws" "$HOME/.zshrc"; 
+        then 
+            echo 'export PATH=$PATH:$HOME/.aws-scripts/aws' >> $HOME/.zshrc
+        fi
     ;;
     *bash)
         echo "Using bash"
-        echo "PATH=$PATH:$HOME/.aws-scripts/aws" >> $HOME/.bashrc 
+        if ! grep ".aws-scripts/aws" "$HOME/.bashrc"; 
+        then 
+            echo 'export PATH=$PATH:$HOME/.aws-scripts/aws' >> $HOME/.bashrc 
+        fi
     esac
+
+    # Create aliases for each script 
 }
 
 install
-
 
 
 
